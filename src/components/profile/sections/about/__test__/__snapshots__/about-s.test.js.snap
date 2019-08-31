@@ -151,7 +151,7 @@ exports[`About Component should match snapshot 1`] = `
             <span
               className="a_label"
             >
-              Instagram
+              Wholesome Space
             </span>
             <a
               className="a_info"

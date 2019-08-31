@@ -11,7 +11,7 @@ exports[`Header component should match snapshot 1`] = `
       to="/"
     >
       <img
-        alt="Instagram"
+        alt="Wholesome Space"
         src="/images/instagram.jpg"
       />
     </Link>
@@ -27,7 +27,7 @@ exports[`Header component should match snapshot 1`] = `
         disabled={false}
         maxLength="255"
         onChange={[Function]}
-        placeholder="Search Instagram"
+        placeholder="Search Wholesome Space"
         spellCheck="false"
         type="text"
         value=""
