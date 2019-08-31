@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import FileInput from '../../others/input/file'
 import TextArea from '../../others/input/textArea'
 import { CPP } from '../../../actions/post'
+import Perspective from 'perspective-api-client'
+
+const perspective = new Perspective({
+  apiKey: 'AIzaSyCck6P49AKbnKF-gujEbGfwWAlhKOCpA6Q',
+})
 
 const PostItMiddle = ({ postIt, session, dispatch }) => {
   let { username } = session
@@ -23,7 +28,55 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     reader.readAsDataURL(file)
   }
 
-  let valueChange = e => dp('desc', e.target.value)
+  let heckText = async textVal => {
+    // var timer = Date.now()
+    let result = await perspective.analyze({
+      comment: { text: textVal },
+      requestedAttributes: {
+        TOXICITY: {},
+        PROFANITY: {},
+        SEVERE_TOXICITY: {},
+        SEXUALLY_EXPLICIT: {},
+        INSULT: {},
+        FLIRTATION: {},
+        IDENTITY_ATTACK: {},
+      },
+      languages: ['en'],
+    })
+
+    // normlize the data
+    var cleaness = { text: textVal }
+    for (let key in result.attributeScores) {
+      if (result.attributeScores.hasOwnProperty(key)) {
+        let el = result.attributeScores[key]
+        if (el && el.summaryScore && el.summaryScore.value)
+          cleaness[key] =
+            parseInt((el.summaryScore.value * 100).toFixed(0)) || 0
+      }
+    }
+
+    console.log(cleaness)
+    // reply['time'] = Date.now() - timer
+    // console.log(JSON.stringify(reply, null, 2))
+
+    if (textVal.length > 3) {
+      // console.log(text)
+      dp('clean', false)
+    } else {
+      dp('clean', true)
+    }
+  }
+  
+  const [timeout, setTimeoutState] = useState(0)
+  let valueChange = e => {
+    let text = e.target.value
+    dp('desc', text)
+
+    if(timeout) clearTimeout(timeout);
+    setTimeoutState(setTimeout(() => {
+      heckText(text)
+    }, 800))
+  }
 
   return (
     <div className="i_p_main p_main" style={{ height: 296 }}>
@@ -32,7 +85,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
         <div>
           <div className="i_p_ta">
             <TextArea
-              placeholder={`What's new with you, @${username}?`}
+              placeholder={`Say something nice, @${username}?`}
               value={desc}
               valueChange={valueChange}
               className="t_p_ta"

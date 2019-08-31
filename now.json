@@ -1,6 +1,6 @@
 {
-    "version": 2,
-    "name": "wholesome-facebook",
-    "public": false,
-    "regions": ["all"]
+  "version": 2,
+  "name": "wholesome-facebook",
+  "public": false,
+  "regions": ["all"]
 }

@@ -10,9 +10,11 @@ const PostItActions = props => {
   let {
     back,
     group_name,
-    postIt: { fileChanged, showOverlay, ...rest },
+    postIt: { fileChanged, clean, showOverlay, ...rest },
     dispatch,
   } = props
+
+  console.log('props', props)
 
   let toggleOverlay = () => dispatch(CPP('showOverlay', !showOverlay))
 
@@ -43,7 +45,7 @@ const PostItActions = props => {
       <PrimaryButton
         label="Post"
         onClick={postIt}
-        disabled={!fileChanged}
+        disabled={!fileChanged || !clean}
         extraClass="p_post"
       />
     </div>

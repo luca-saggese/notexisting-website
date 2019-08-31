@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { post } from 'axios'
 import PropTypes from 'prop-types'
 import MapAvatars from './map-avatars'
-import UploadAvatar from './upload-avatar'
+// import UploadAvatar from './upload-avatar'
 import d from '../../../utils/API/DOM'
 import AvatarActions from './avatar-actions'
 import MaterialIcon from '../icons/material-icon'
@@ -54,7 +54,7 @@ export default class Avatars extends Component {
             selectAvatar={this.selectAvatar}
           />
           <div className="pro_ava_bottom">
-            <UploadAvatar of={of} group={group} />
+            {/* <UploadAvatar of={of} group={group} /> */}
 
             <AvatarActions
               loading={loading}

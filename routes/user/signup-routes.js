@@ -20,7 +20,7 @@ const sendMailAndcreateDir = async (insertId, username, email, res) => {
   let mkdir = promisify(fs.mkdir)
 
   await mkdir(`${dir}/dist/users/${insertId}`)
-  fs.createReadStream(`${dir}/dist/images/spacecraft.jpg`).pipe(
+  fs.createReadStream(`${dir}/dist/images/Chee ho 1.jpg`).pipe(
     fs.createWriteStream(`${dir}/dist/users/${insertId}/avatar.jpg`)
   )
 
