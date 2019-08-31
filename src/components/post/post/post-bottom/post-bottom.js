@@ -53,7 +53,6 @@ class PostBottom extends Component {
 
             <div className="p_cit_tool">
               <StickerComment {...childProps} />
-              <ImageComment {...childProps} />
             </div>
           </div>
         </div>
