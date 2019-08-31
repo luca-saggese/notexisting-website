@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import FileInput from '../../others/input/file'
 import TextArea from '../../others/input/textArea'
 import { CPP } from '../../../actions/post'
+import Status from './post-status'
 import Perspective from 'perspective-api-client'
 
 const perspective = new Perspective({
@@ -11,7 +12,7 @@ const perspective = new Perspective({
 
 const PostItMiddle = ({ postIt, session, dispatch }) => {
   let { username } = session
-  let { fileChanged, desc, previewImg, filter, fileInput } = postIt
+  let { fileChanged, clean, desc, previewImg, filter, fileInput } = postIt
 
   let dp = (...args) => dispatch(CPP(...args))
 
@@ -61,19 +62,19 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     // console.log(JSON.stringify(reply, null, 2))
 
     if (cleaness.FLIRTATION > 60) {
-      dp('clean', true)
+      dp('clean', 'dirty')
     } else if (cleaness.TOXICITY > 30) {
-      dp('clean', true)
+      dp('clean', 'toxic')
     } else if (cleaness.PROFANITY > 30) {
-      dp('clean', true)
+      dp('clean', 'profane')
     } else if (cleaness.SEVERE_TOXICITY > 25) {
-      dp('clean', true)
+      dp('clean', 'really toxic')
     } else if (cleaness.SEXUALLY_EXPLICIT > 30) {
-      dp('clean', true)
+      dp('clean', 'sexual')
     } else if (cleaness.INSULT > 30) {
-      dp('clean', true)
+      dp('clean', 'insulting')
     } else if (cleaness.IDENTITY_ATTACK > 25) {
-      dp('clean', true)
+      dp('clean', 'an identity attack')
     } else {
       dp('clean', false)
     }
@@ -94,7 +95,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
   }
 
   return (
-    <div className="i_p_main p_main" style={{ height: 296 }}>
+    <div className="i_p_main p_main" style={{ height: 315 }}>
       {// Show if image/file is selected
       fileChanged ? (
         <div>
@@ -105,6 +106,9 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
               valueChange={valueChange}
               className="t_p_ta"
             />
+          </div>
+          <div>
+            <Status text={desc} rating={clean}></Status>
           </div>
           <div className="i_p_img">
             <img src={previewImg} className={filter} />

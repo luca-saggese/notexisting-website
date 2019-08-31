@@ -8,11 +8,11 @@ app.post('/check-is-admin', async (req, res) => {
     { ADMIN_PASSWORD } = process.env
 
   if (password != ADMIN_PASSWORD) {
-    res.json({ mssg: 'Wrong password!!' })
+    res.json({ mssg: 'type yes to prove you are chee ho' })
   } else {
     req.session.isadmin = true
     res.json({
-      mssg: 'Hello admin!!',
+      mssg: 'Hello Chee Ho!!',
       success: true,
     })
   }

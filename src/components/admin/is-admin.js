@@ -9,8 +9,8 @@ const IsAdmin = () => (
     {!isAdmin() && <Redirect to="/admin-login" />}
 
     <Title
-      value="You are the admin"
-      desc="You can now remove and edit any post, comment, user, group, message, etc. as an admin"
+      value="You are Chee Ho"
+      desc="You can now remove and edit any post, comment, user, group, message, etc. as Chee Ho"
     />
 
     <FadeIn duration="300ms">
