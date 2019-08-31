@@ -19,6 +19,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     e.preventDefault()
     dp('fileChanged', true)
     dp('fileInput', e.target.value)
+    dp('clean', true)
 
     let reader = new FileReader(),
       file = e.target.files[0]
@@ -59,23 +60,37 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     // reply['time'] = Date.now() - timer
     // console.log(JSON.stringify(reply, null, 2))
 
-    if (textVal.length > 3) {
-      // console.log(text)
-      dp('clean', false)
-    } else {
+    if (cleaness.FLIRTATION > 60) {
       dp('clean', true)
+    } else if (cleaness.TOXICITY > 30) {
+      dp('clean', true)
+    } else if (cleaness.PROFANITY > 30) {
+      dp('clean', true)
+    } else if (cleaness.SEVERE_TOXICITY > 25) {
+      dp('clean', true)
+    } else if (cleaness.SEXUALLY_EXPLICIT > 30) {
+      dp('clean', true)
+    } else if (cleaness.INSULT > 30) {
+      dp('clean', true)
+    } else if (cleaness.IDENTITY_ATTACK > 25) {
+      dp('clean', true)
+    } else {
+      dp('clean', false)
     }
   }
-  
+
   const [timeout, setTimeoutState] = useState(0)
   let valueChange = e => {
     let text = e.target.value
+    dp('clean', true)
     dp('desc', text)
 
-    if(timeout) clearTimeout(timeout);
-    setTimeoutState(setTimeout(() => {
-      heckText(text)
-    }, 800))
+    if (timeout) clearTimeout(timeout)
+    setTimeoutState(
+      setTimeout(() => {
+        heckText(text)
+      }, 800)
+    )
   }
 
   return (

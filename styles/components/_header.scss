@@ -1,70 +1,65 @@
 // Header
-.header{
+.header {
   position: fixed;
   width: 100%;
   height: 45px;
   background: $ff;
   z-index: 2;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
   & > .logo {
     position: absolute;
     float: left;
-    left: 25px;
+    left: 35px;
     top: 6px;
 
     & > a {
       outline: none;
 
-      & > img{
+      & > img {
         width: 32px;
         height: 32px;
       }
-
     }
-
   }
 
-  & .search_box{
+  & .search_box {
     position: absolute;
     left: 85px;
     top: 6px;
 
-    & > input[type="text"].search{
-      background: rgba(0,0,0,0.04);
+    & > input[type="text"].search {
+      background: rgba(0, 0, 0, 0.04);
       padding: 7px 20px 7px 10px;
       border: none;
       width: 500px;
       font-size: 14px;
 
-      &.search:focus{
+      &.search:focus {
         border: none !important;
         box-shadow: none !important;
       }
-
     }
 
-    & > span.search_icon{
+    & > span.search_icon {
       left: -28px;
       top: -1px;
       position: relative;
 
-      & > i{
+      & > i {
         font-size: 14px;
         color: #11bbab;
       }
-
     }
-
   }
 
-  & > .header_right{
+  & > .header_right {
     position: absolute;
     float: left;
     right: 10px;
     overflow: inherit;
 
-    & > a{
+    & > a {
       border: 1px solid $ff;
       padding: 7px 9px 7px 7px;
       border-radius: 52px;
@@ -74,15 +69,15 @@
       outline: none;
       line-height: 3;
 
-      &:hover{
+      &:hover {
         background: $second_border;
       }
 
-      &:focus{
+      &:focus {
         background: $second_border;
       }
 
-      & > img{
+      & > img {
         width: 25px;
         height: 25px;
         position: relative;
@@ -91,42 +86,40 @@
         margin-right: 3px;
       }
 
-      & > span{
+      & > span {
         color: $dark;
         font-size: 14px;
       }
-
     }
 
     // for active links
-    .ha_active{
+    .ha_active {
       background: $second_border;
     }
 
-    & .notification{
+    & .notification {
       margin-right: 20px;
       border-radius: 3px !important;
       border: 1px solid $ee !important;
       padding: 6px 7px !important;
 
-      &::before{
+      &::before {
         content: "";
       }
 
-      & > .notification_span{
+      & > .notification_span {
         position: relative;
         display: inline-block;
         top: 6px;
         height: 23px;
 
-        & > i{
+        & > i {
           font-size: 23px;
         }
-
       }
     }
 
-    & > .show_more{
+    & > .show_more {
       position: relative;
       border: 1px solid #fff;
       color: #66757f;
@@ -137,42 +130,38 @@
       margin-left: 0px;
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         color: #1b2733;
       }
 
-      & > i{
+      & > i {
         position: relative;
         top: 8px;
       }
-
     }
-
   }
 
-  & > .sp_options{
+  & > .sp_options {
     position: fixed;
     right: 10px;
     top: 55px;
 
-    &::before{
+    &::before {
       content: "";
       background: $ff;
       width: 11px;
       height: 11px;
       top: -6px;
       position: absolute;
-      border-top: 1px solid #DCDFE1;
+      border-top: 1px solid #dcdfe1;
       transform: rotate(45deg);
-      border-left: 1px solid #DCDFE1;
+      border-left: 1px solid #dcdfe1;
       right: 9px;
       z-index: -1;
     }
 
-    & a{
+    & a {
       width: 74px;
     }
-
   }
-
 }
