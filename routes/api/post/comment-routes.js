@@ -18,6 +18,7 @@ app.post('/comment-text', async (req, res) => {
       comment = {
         type: 'text',
         text,
+        commentSrc: '',
         comment_by: id,
         post_id,
         comment_time: new Date().getTime(),
@@ -79,6 +80,7 @@ app.post('/comment-sticker', async (req, res) => {
         type: 'sticker',
         commentSrc: filename,
         comment_by: id,
+        text: '',
         post_id: post,
         comment_time: new Date().getTime(),
       }

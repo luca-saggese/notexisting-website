@@ -24,13 +24,11 @@ const sendMailAndcreateDir = async (insertId, username, email, res) => {
     fs.createWriteStream(`${dir}/dist/users/${insertId}/avatar.jpg`)
   )
 
-  let url = `http://localhost:${
-      process.env.PORT
-    }/deep/most/topmost/activate/${insertId}`,
+  let url = `http://localhost:${process.env.PORT}/deep/most/topmost/activate/${insertId}`,
     options = {
       to: email,
       subject: 'Activate your Instagram account',
-      html: `<span>Hello ${username}, You received this message because you created an account on Instagram.<span><br><span>Click on button below to activate your account and explore.</span><br><br><a href='${url}' style='border: 1px solid #1b9be9; font-weight: 600; color: #fff; border-radius: 3px; cursor: pointer; outline: none; background: #1b9be9; padding: 4px 15px; display: inline-block; text-decoration: none;'>Activate</a>`,
+      html: `<span>Hello ${username}, You received this message because you created an account.<span><br><span>Click on button below to activate your account and explore.</span><br><br><a href='${url}' style='border: 1px solid #1b9be9; font-weight: 600; color: #fff; border-radius: 3px; cursor: pointer; outline: none; background: #1b9be9; padding: 4px 15px; display: inline-block; text-decoration: none;'>Activate</a>`,
     }
 
   try {
@@ -91,8 +89,16 @@ app.post('/user/signup', async (req, res) => {
           surname,
           email,
           password,
+          bio: '',
+          instagram: '',
+          facebook: '',
+          twitter: '',
+          github: '',
+          phone: '',
+          website: '',
           joined: new Date().getTime(),
           email_verified: 'no',
+          lastOnline: '',
           isOnline: 'yes',
         }
         let { insertId, affectedRows } = await User.create_user(newUser)

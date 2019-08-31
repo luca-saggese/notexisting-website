@@ -5,53 +5,108 @@ const app = require('express').Router(),
   Post = require('../../../config/Post'),
   User = require('../../../config/User'),
   root = process.cwd(),
-  upload = require('multer')({
-    dest: `${root}/dist/temp/`,
-  }),
-  { ProcessImage, DeleteAllOfFolder } = require('handy-image-processor')
+  cloudinary = require('cloudinary').v2,
+  multer = require('multer')
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, `${root}/dist/temp/`)
+  },
+  filename: function(req, file, cb) {
+    // console.log(file)
+    //
+    cb(null, file.originalname)
+  },
+})
+
+cloudinary.config({
+  cloud_name: process.env.cloudinary_name,
+  api_key: process.env.cloudinary_key,
+  api_secret: process.env.cloudinary_secret,
+})
 
 // POST [REQ = DESC, FILTER, LOCATION, TYPE, GROUP, IMAGE(FILE) ]
-app.post('/post-it', upload.single('image'), async (req, res) => {
-  try {
-    let { id } = req.session,
-      { desc, filter, location, type, group } = req.body,
-      filename = `instagram_${new Date().getTime()}.jpg`,
-      obj = {
-        srcFile: req.file.path,
-        destFile: `${root}/dist/posts/${filename}`,
-      },
-      insert = {
-        user: id,
-        description: desc,
-        imgSrc: filename,
-        filter,
-        location,
-        type,
-        group_id: group,
-        post_time: new Date().getTime(),
+app.post('/post-it', async (req, res) => {
+  const upload = multer({ storage }).single('image')
+  upload(req, res, async function(err) {
+    if (err) {
+      return res.send(err)
+    }
+    console.log(req.file)
+    // res.json(req.file)
+
+    const path = req.file.path
+    const uniqueFilename = `perspective_${new Date().toISOString()}`
+
+    try {
+      var url = await cloudinary.uploader.upload(path)
+    } catch (err) {
+      console.log(err)
+    }
+    // filename = `instagram_${new Date().getTime()}.jpg`,
+    // obj = {
+    //   srcFile: req.file.path,
+    //   destFile: `${root}/dist/posts/${filename}`,
+    // },
+
+    console.log(url)
+
+    var fileURI = url.secure_url
+
+    // console.log(req.body)
+    try {
+      let { id } = req.session,
+        { desc, filter, location, type, group } = req.body,
+        insert = {
+          user: id,
+          description: desc,
+          imgSrc: fileURI,
+          filter,
+          location,
+          type,
+          group_id: group != 'undefined' ? group : '0',
+          post_time: new Date().getTime(),
+        }
+
+      console.log(insert)
+
+      // await ProcessImage(obj)
+      // DeleteAllOfFolder(`${root}/dist/temp/`)
+
+      let { insertId } = await db.query('INSERT INTO posts SET ?', insert),
+        firstname = await User.getWhat('firstname', id),
+        surname = await User.getWhat('surname', id)
+
+      await db.toHashtag(desc, id, insertId)
+      await User.mentionUsers(desc, id, insertId, 'post')
+
+      res.json({
+        success: true,
+        mssg: 'Posted!!',
+        post_id: insertId,
+        firstname,
+        surname,
+        filename: fileURI,
+      })
+    } catch (error) {
+      db.catchError(error, res)
+    }
+
+    cloudinary.uploader.upload(
+      path,
+      { public_id: `feed/${uniqueFilename}`, tags: `feed` }, // directory and tags are optional
+      async function(err, image) {
+        if (err) return res.send(err)
+        console.log('file uploaded to Cloudinary')
+        // remove file from server
+        const fs = require('fs')
+        fs.unlinkSync(path)
+        // return image details
+        // res.json(image)
+        console.log(image)
       }
-
-    await ProcessImage(obj)
-    DeleteAllOfFolder(`${root}/dist/temp/`)
-
-    let { insertId } = await db.query('INSERT INTO posts SET ?', insert),
-      firstname = await User.getWhat('firstname', id),
-      surname = await User.getWhat('surname', id)
-
-    await db.toHashtag(desc, id, insertId)
-    await User.mentionUsers(desc, id, insertId, 'post')
-
-    res.json({
-      success: true,
-      mssg: 'Posted!!',
-      post_id: insertId,
-      firstname,
-      surname,
-      filename,
-    })
-  } catch (error) {
-    db.catchError(error, res)
-  }
+    )
+  })
 })
 
 // TAGS USERS FOR A POST [REQ = TAGS, POST_ID]

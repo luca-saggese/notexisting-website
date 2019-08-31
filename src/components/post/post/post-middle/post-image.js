@@ -40,7 +40,7 @@ export default class PostImage extends Component {
             </div>
 
             <img
-              src={`/posts/${imgSrc}`}
+              src={`${imgSrc}`}
               className={classNames('p_img', filter)}
               onClick={() => this._toggle('showImage')}
             />
@@ -51,7 +51,7 @@ export default class PostImage extends Component {
 
         {showImage && (
           <ImageTheatre
-            imgSrc={`/posts/${imgSrc}`}
+            imgSrc={`${imgSrc}`}
             filter={filter}
             username={username}
             time={post_time}
