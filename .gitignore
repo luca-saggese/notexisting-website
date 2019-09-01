@@ -4,5 +4,7 @@ env.js
 coverage/
 
 dist/js/bundle.js
+./dist/js/bundle.js
+dist/js/
 
 *.json

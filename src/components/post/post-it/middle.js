@@ -100,22 +100,26 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     dp('clean', true)
     dp('fileChanged', true)
 
-    var request = new XMLHttpRequest();
-    request.open('GET', 'http://54.252.242.202:5000/generate', true)
-    request.responseType = 'blob';
+    var request = new XMLHttpRequest()
+    request.open(
+      'GET',
+      'http://54.252.242.202:5000/generate?' + Date.now(),
+      true
+    )
+    request.responseType = 'blob'
     request.onload = function() {
       dp('clean', true)
       dp('fileChanged', true)
-      var reader = new FileReader();
+      var reader = new FileReader()
       dp('targetFile', request.response)
-      reader.readAsDataURL(request.response);
+      reader.readAsDataURL(request.response)
       reader.onload = function(e) {
         // console.log('DataURL:', e.target.result);
         dp('previewImg', e.target.result)
         imageLoad(file)
       }
-    };
-    request.send();
+    }
+    request.send()
   }
 
   let heckText = async textVal => {
@@ -178,7 +182,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     setTimeoutState(
       setTimeout(() => {
         heckText(text)
-      }, 800)
+      }, 300)
     )
   }
 
