@@ -55,7 +55,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
                 dp('imageSafe', 'offensive content')
               } else if (image_safety.alcohol > 0.5) {
                 dp('imageSafe', 'alcohol')
-              } else if (image_safety.drug > 0.5) {
+              } else if (image_safety.drugs > 0.5) {
                 dp('imageSafe', 'drugs')
               } else if (image_safety.nudity.safe < 0.4) {
                 dp('imageSafe', 'nudity')
