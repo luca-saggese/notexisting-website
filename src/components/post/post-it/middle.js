@@ -14,74 +14,108 @@ const perspective = new Perspective({
 
 const PostItMiddle = ({ postIt, session, dispatch }) => {
   let { username } = session
-  let { fileChanged, clean, desc, imageSafe, previewImg, filter, fileInput } = postIt
+  let {
+    fileChanged,
+    clean,
+    desc,
+    imageSafe,
+    previewImg,
+    filter,
+    fileInput,
+  } = postIt
 
   let dp = (...args) => dispatch(CPP(...args))
 
+  let imageLoad = file => {
+    var cloudName = 'de5u4rmlg'
+    var unsignedUploadPreset = 'x9b8qxth'
+    var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
+    var xhr = new XMLHttpRequest()
+    var fd = new FormData()
+    xhr.open('POST', url, true)
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+
+    xhr.onreadystatechange = function(a) {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // File uploaded successfully
+        let response = JSON.parse(xhr.responseText)
+        let url = response.secure_url
+        fetch(
+          `https://api.sightengine.com/1.0/check.json?models=nudity,wad,offensive&api_user=444495086&api_secret=KPBB8CcEzbmXrUzyftiL&url=${url}`
+        )
+          .then(function(response) {
+            return response.json()
+          })
+          .then(function(image_safety) {
+            console.log(image_safety)
+            if (image_safety) {
+              if (image_safety.weapon > 0.5) {
+                dp('imageSafe', 'weapons')
+              } else if (image_safety.offensive.prob > 0.5) {
+                dp('imageSafe', 'offensive content')
+              } else if (image_safety.alcohol > 0.5) {
+                dp('imageSafe', 'alcohol')
+              } else if (image_safety.drug > 0.5) {
+                dp('imageSafe', 'drugs')
+              } else if (image_safety.nudity.safe < 0.4) {
+                dp('imageSafe', 'nudity')
+              } else if (image_safety.nudity.partial > 0.5) {
+                dp('imageSafe', 'partial nudity')
+              } else {
+                dp('imageSafe', false)
+              }
+            } else {
+              dp('imageSafe', true)
+            }
+          })
+      }
+    }
+
+    fd.append('upload_preset', unsignedUploadPreset)
+    fd.append('tags', 'feed')
+    fd.append('file', file)
+    xhr.send(fd)
+  }
+
   let fileChange = e => {
     e.preventDefault()
+    dp('imageSafe', true)
     dp('fileChanged', true)
     dp('fileInput', e.target.value)
     dp('clean', true)
-    dp('imageSafe', true)
 
     let reader = new FileReader(),
       file = e.target.files[0]
     dp('targetFile', file)
-
     reader.onload = e => {
       dp('previewImg', e.target.result)
-
-      var cloudName = 'de5u4rmlg'
-      var unsignedUploadPreset = 'x9b8qxth'
-      var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
-      var xhr = new XMLHttpRequest()
-      var fd = new FormData()
-      xhr.open('POST', url, true)
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-
-      xhr.onreadystatechange = function(a) {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          // File uploaded successfully
-          let response = JSON.parse(xhr.responseText)
-          let url = response.secure_url
-          fetch(
-            `https://api.sightengine.com/1.0/check.json?models=nudity,wad,offensive&api_user=444495086&api_secret=KPBB8CcEzbmXrUzyftiL&url=${url}`
-          )
-            .then(function(response) {
-              return response.json()
-            })
-            .then(function(image_safety) {
-              console.log(image_safety)
-              if (image_safety) {
-                if (image_safety.weapon > 0.5) {
-                  dp('imageSafe', 'weapons')
-                } else if (image_safety.offensive.prob > 0.5) {
-                  dp('imageSafe', 'offensive content')
-                } else if (image_safety.alcohol > 0.5) {
-                  dp('imageSafe', 'alcohol')
-                } else if (image_safety.drug > 0.5) {
-                  dp('imageSafe', 'drugs')
-                } else if (image_safety.nudity.safe < 0.4) {
-                  dp('imageSafe', 'nudity')
-                } else if (image_safety.nudity.partial > 0.5) {
-                  dp('imageSafe', 'partial nudity')
-                } else {
-                  dp('imageSafe', false)
-                }
-              } else {
-                dp('imageSafe', true)
-              }
-            })
-        }
-      }
-
-      fd.append('upload_preset', unsignedUploadPreset)
-      fd.append('tags', 'feed')
-      fd.append('file', file)
-      xhr.send(fd)
+      imageLoad(file)
     }
     reader.readAsDataURL(file)
+  }
+
+  let newImage = e => {
+    e.preventDefault()
+    console.log('new image')
+    dp('clean', true)
+    dp('fileChanged', true)
+
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://54.252.242.202:5000/generate', true)
+    request.responseType = 'blob';
+    request.onload = function() {
+      dp('clean', true)
+      dp('fileChanged', true)
+      var reader = new FileReader();
+      dp('targetFile', request.response)
+      reader.readAsDataURL(request.response);
+      reader.onload = function(e) {
+        // console.log('DataURL:', e.target.result);
+        dp('previewImg', e.target.result)
+        imageLoad(file)
+      }
+    };
+    request.send();
   }
 
   let heckText = async textVal => {
@@ -138,7 +172,6 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
   let valueChange = e => {
     let text = e.target.value
     dp('clean', true)
-    dp('imageSafe', false)
     dp('desc', text)
 
     if (timeout) clearTimeout(timeout)
@@ -183,6 +216,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
             label="Choose an image"
             labelClass="pri_btn"
           />
+          <a onClick={newImage}>I don't have an image</a>
         </form>
       )}
     </div>
