@@ -10,9 +10,11 @@ const perspective = new Perspective({
   apiKey: 'AIzaSyCck6P49AKbnKF-gujEbGfwWAlhKOCpA6Q',
 })
 
+// var cl = new cloudinary.Cloudinary({ cloud_name: 'de5u4rmlg', secure: true })
+
 const PostItMiddle = ({ postIt, session, dispatch }) => {
   let { username } = session
-  let { fileChanged, clean, desc, previewImg, filter, fileInput } = postIt
+  let { fileChanged, clean, desc, imageSafe, previewImg, filter, fileInput } = postIt
 
   let dp = (...args) => dispatch(CPP(...args))
 
@@ -21,12 +23,64 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     dp('fileChanged', true)
     dp('fileInput', e.target.value)
     dp('clean', true)
+    dp('imageSafe', true)
 
     let reader = new FileReader(),
       file = e.target.files[0]
     dp('targetFile', file)
 
-    reader.onload = e => dp('previewImg', e.target.result)
+    reader.onload = e => {
+      dp('previewImg', e.target.result)
+
+      var cloudName = 'de5u4rmlg'
+      var unsignedUploadPreset = 'x9b8qxth'
+      var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
+      var xhr = new XMLHttpRequest()
+      var fd = new FormData()
+      xhr.open('POST', url, true)
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+
+      xhr.onreadystatechange = function(a) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // File uploaded successfully
+          let response = JSON.parse(xhr.responseText)
+          let url = response.secure_url
+          fetch(
+            `https://api.sightengine.com/1.0/check.json?models=nudity,wad,offensive&api_user=444495086&api_secret=KPBB8CcEzbmXrUzyftiL&url=${url}`
+          )
+            .then(function(response) {
+              return response.json()
+            })
+            .then(function(image_safety) {
+              console.log(image_safety)
+              if (image_safety) {
+                if (image_safety.weapon > 0.5) {
+                  dp('imageSafe', 'weapons')
+                } else if (image_safety.offensive.prob > 0.5) {
+                  dp('imageSafe', 'offensive content')
+                } else if (image_safety.alcohol > 0.5) {
+                  dp('imageSafe', 'alcohol')
+                } else if (image_safety.drug > 0.5) {
+                  dp('imageSafe', 'drugs')
+                } else if (image_safety.nudity.safe < 0.4) {
+                  dp('imageSafe', 'nudity')
+                } else if (image_safety.nudity.partial > 0.5) {
+                  dp('imageSafe', 'partial nudity')
+                } else {
+                  dp('imageSafe', false)
+                }
+              } else {
+                dp('imageSafe', true)
+              }
+            })
+        }
+      }
+
+      fd.append('upload_preset', unsignedUploadPreset)
+      fd.append('tags', 'feed')
+      fd.append('file', file)
+      xhr.send(fd)
+    }
     reader.readAsDataURL(file)
   }
 
@@ -61,20 +115,20 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     // reply['time'] = Date.now() - timer
     // console.log(JSON.stringify(reply, null, 2))
 
-    if (cleaness.FLIRTATION > 60) {
-      dp('clean', 'dirty')
-    } else if (cleaness.TOXICITY > 30) {
-      dp('clean', 'toxic')
-    } else if (cleaness.PROFANITY > 30) {
+    if (cleaness.PROFANITY > 80) {
       dp('clean', 'profane')
-    } else if (cleaness.SEVERE_TOXICITY > 25) {
-      dp('clean', 'really toxic')
-    } else if (cleaness.SEXUALLY_EXPLICIT > 30) {
-      dp('clean', 'sexual')
-    } else if (cleaness.INSULT > 30) {
+    } else if (cleaness.INSULT > 40) {
       dp('clean', 'insulting')
-    } else if (cleaness.IDENTITY_ATTACK > 25) {
+    } else if (cleaness.SEVERE_TOXICITY > 35) {
+      dp('clean', 'really toxic')
+    } else if (cleaness.TOXICITY > 35) {
+      dp('clean', 'toxic')
+    } else if (cleaness.IDENTITY_ATTACK > 35) {
       dp('clean', 'an identity attack')
+    } else if (cleaness.SEXUALLY_EXPLICIT > 40) {
+      dp('clean', 'sexual')
+    } else if (cleaness.FLIRTATION > 95) {
+      dp('clean', 'dirty')
     } else {
       dp('clean', false)
     }
@@ -84,6 +138,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
   let valueChange = e => {
     let text = e.target.value
     dp('clean', true)
+    dp('imageSafe', false)
     dp('desc', text)
 
     if (timeout) clearTimeout(timeout)
@@ -103,12 +158,13 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
             <TextArea
               placeholder={`Say something nice, @${username}?`}
               value={desc}
+              disabled={Boolean(imageSafe)}
               valueChange={valueChange}
               className="t_p_ta"
             />
           </div>
           <div>
-            <Status text={desc} rating={clean}></Status>
+            <Status text={desc} rating={clean} imageSafe={imageSafe}></Status>
           </div>
           <div className="i_p_img">
             <img src={previewImg} className={filter} />
