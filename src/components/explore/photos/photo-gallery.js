@@ -35,7 +35,7 @@ class ExplorePhotoGallery extends Component {
     for (let f of photos) {
       PHOTO_SET.push({
         ...f,
-        src: `${f.imgsrc}`,
+        src: `/posts/${f.imgsrc}`,
         width: 15,
         height: 15,
         className: `${f.filter}`,

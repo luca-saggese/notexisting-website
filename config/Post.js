@@ -109,7 +109,7 @@ const deletePost = async ({ post, when }) => {
     ),
     deleteFile = promisify(unlink)
 
-  // await deleteFile(`${root}/dist/posts/${imgSrc}`)
+  await deleteFile(`${root}/dist/posts/${imgSrc}`)
 
   comments.map(async c => {
     if (c.type != 'text') {
