@@ -7,7 +7,7 @@
 
 // Initializes dotenv
 require('dotenv').config()
-const hbs = require('express-handlebars');
+// const hbs = require('express-handlebars');
 
 // Require Dependencies
 const express = require('express'),
