@@ -5,7 +5,7 @@ import TextArea from '../../others/input/textArea'
 import { CPP } from '../../../actions/post'
 import Status from './post-status'
 import Perspective from 'perspective-api-client'
-import { FileUploader } from "react-drag-drop-files";
+// import { FileUploader } from "react-drag-drop-files";
 
 
 const perspective = new Perspective({
@@ -216,13 +216,13 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           method="post"
           encType="multipart/formdata"
         >
-          {/* <FileInput
+           <FileInput
             value={fileInput}
             fileChange={fileChange}
             label="Choose an image"
             labelClass="pri_btn"
-          /> */}
-          <FileUploader handleChange={fileChange} name="file" types={fileTypes} label="Choose an image" labelClass="pri_btn"/>
+          /> 
+          {/* <FileUploader handleChange={fileChange} name="file" types={fileTypes} label="Choose an image" labelClass="pri_btn"/> */}
 
           <a onClick={newImage}>I don't have an image</a>
         </form>
