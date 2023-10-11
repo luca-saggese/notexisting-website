@@ -5,6 +5,8 @@ import TextArea from '../../others/input/textArea'
 import { CPP } from '../../../actions/post'
 import Status from './post-status'
 import Perspective from 'perspective-api-client'
+import { FileUploader } from "react-drag-drop-files";
+
 
 const perspective = new Perspective({
   apiKey: 'AIzaSyCck6P49AKbnKF-gujEbGfwWAlhKOCpA6Q',
@@ -185,7 +187,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
       }, 300)
     )
   }
-
+  const fileTypes = ["JPG", "PNG", "GIF"];
   return (
     <div className="i_p_main p_main" style={{ height: 315 }}>
       {// Show if image/file is selected
@@ -214,12 +216,14 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           method="post"
           encType="multipart/formdata"
         >
-          <FileInput
+          {/* <FileInput
             value={fileInput}
             fileChange={fileChange}
             label="Choose an image"
             labelClass="pri_btn"
-          />
+          /> */}
+          <FileUploader handleChange={fileChange} name="file" types={fileTypes} label="Choose an image" labelClass="pri_btn"/>
+
           <a onClick={newImage}>I don't have an image</a>
         </form>
       )}
