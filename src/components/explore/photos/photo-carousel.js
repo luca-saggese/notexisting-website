@@ -4,7 +4,7 @@ import Gallery from 'react-photo-gallery'
 import { connect } from 'react-redux'
 import ImageTheatre from '../../others/imageTheatre/imageTheatre'
 
-class ExplorePhotoGallery extends Component {
+class PhotoCarousel extends Component {
   state = {
     showImage: false,
     src: '',
@@ -78,5 +78,5 @@ const mapStateToProps = store => ({
   photos: store.Explore.photos,
 })
 
-export default connect(mapStateToProps)(ExplorePhotoGallery)
-export { ExplorePhotoGallery as PureExplorePhotoGallery }
+export default connect(mapStateToProps)(PhotoCarousel)
+export { PhotoCarousel as PurePhotoCarousely }

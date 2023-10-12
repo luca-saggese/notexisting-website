@@ -45,7 +45,7 @@ class BannerBlockUser extends Component {
         {blockUser && (
           <Prompt
             title={`Block ${username}`}
-            content={`${username} will no longer be able to follow, message, comment, recommend or add you in any group. Wholesome Space won't let ghalib know you blocked him/her. You can unblock from settings.`}
+            content={`${username} will no longer be able to follow, message, comment, recommend or add you in any group. Not Existing won't let ghalib know you blocked him/her. You can unblock from settings.`}
             actionText="Block"
             action={this.blockUser}
             back={this.toggleBlockUser}

@@ -87,7 +87,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
   }
 
   let fileChange = e => {
-    //e.preventDefault()
+    e.preventDefault()
     dp('imageSafe', true)
     dp('fileChanged', true)
     dp('fileInput', e.target.value)
