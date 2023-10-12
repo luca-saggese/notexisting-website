@@ -8,7 +8,7 @@ const TextArea = ({ value, placeholder, disabled, valueChange, ...props }) => {
         spellCheck="false"
         placeholder={placeholder}
         value={value}
-        disabled={disabled}
+disabled={disabled}
         onChange={valueChange}
         {...props}
       />

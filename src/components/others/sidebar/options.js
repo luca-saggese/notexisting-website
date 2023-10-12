@@ -6,6 +6,9 @@ const SidebarOptions = () => (
       <li>
         <a href="/about">About</a>
       </li>
+      <li>
+        <a href="/developer">Developer</a>
+      </li>
     </ul>
   </div>
 )

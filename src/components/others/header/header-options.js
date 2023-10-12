@@ -4,7 +4,7 @@ import AppLink from '../link/link'
 
 const HeaderOptions = ({ toggleOptions }) => {
   let clicked = () => toggleOptions()
-  let dark = () => {
+let dark = () => {
     var style = document.createElement('link')
     style.href = '/styles/dark.css'
     style.rel = 'stylesheet'
@@ -34,6 +34,17 @@ const HeaderOptions = ({ toggleOptions }) => {
           <a className="o_a" alt="Dark">
             Dark mode
           </a>
+        </li>
+        <li className="o_li">
+          <a href="/help" className="o_a" alt="Help">
+            Help
+          </a>
+        </li>
+        <li className="o_li">
+          <a href="/about">About</a>
+        </li>
+        <li className="o_li">
+          <a href="/developer">Developer</a>
         </li>
         <li className="o_li o_divider">
           <hr className="menu_divider" />

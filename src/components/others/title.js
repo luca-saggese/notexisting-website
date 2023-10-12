@@ -12,7 +12,7 @@ const Title = ({ value, desc, un }) => {
   return (
     <Helmet>
       <title>
-        {un ? `(${un})` : ''} {`${value}`} • Wholesome facebook
+        {un ? `(${un})` : ''} {`${value}`} • Not Existing
       </title>
       <meta name="description" content={desc} />
     </Helmet>
@@ -22,7 +22,7 @@ const Title = ({ value, desc, un }) => {
 Title.defaultProps = {
   value: '',
   desc:
-    "There's no mean people here",
+    "Share AI generated picture and inspire the world!!",
 }
 
 Title.propTypes = {

@@ -37,20 +37,20 @@ export default class AdminLogin extends Component {
         {isAdmin() && <Redirect to="/is-admin" />}
 
         <Title
-          value="Are you the Chee Ho?"
-          desc="Chee ho wouldn't lie" 
+          value="Are you the admin?"
+          desc="Verify you are admin with the admin password"
         />
 
         <FadeIn duration="300ms">
           <div className="cua are-you-admin">
             <div className="display_text">
-              <span>Are you Chee Ho?</span>
+              <span>Are you the admin?</span>
             </div>
             <form className="form_login" onSubmit={this.submit}>
               <TextInput
-                type="text"
+                type="password"
                 id="al_password"
-                placeholder="Be honest"
+                placeholder="Admin password"
                 autoFocus
                 required
                 value={password}
@@ -64,7 +64,7 @@ export default class AdminLogin extends Component {
               </span>
               <input
                 type="submit"
-                value="Continue as Chee ho"
+                value="Continue as admin"
                 className="al_submit"
               />
             </form>
