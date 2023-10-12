@@ -33,6 +33,8 @@ app.post('/edit-profile', async (req, res) => {
   } = req.body
   let { id } = req.session
 
+  console.log('edit-profile', req.body);
+
   // filter illegal characters
   let replacer = /[^a-z0-9_.@$#]/g
   username = username.replace(replacer, '')
