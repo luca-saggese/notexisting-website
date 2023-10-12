@@ -234,7 +234,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
               <section>
                 <div {...getRootProps()} style={{height: '100%'}}>
                   <input {...getInputProps()} />
-                  <p>Drag 'n' drop some files here, or click to select files</p>
+                  <div style={{height: 300}}>Drag 'n' drop some files here, or click to select files</div>
                 </div>
               </section>
             )}
