@@ -79,6 +79,13 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
     xhr.send(fd)
   }
 
+  let _fileChange = files =>{
+    fileChange({
+      preventDefault: ()=>{},
+      target:{files}
+    })
+  }
+
   let fileChange = e => {
     //e.preventDefault()
     dp('imageSafe', true)
@@ -222,7 +229,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
             label="Choose an image"
             labelClass="pri_btn"
           />  */}
-          <Dropzone onDrop={fileChange}>
+          <Dropzone onDrop={_fileChange}>
             {({getRootProps, getInputProps}) => (
               <section>
                 <div {...getRootProps()} style={{height: '100%'}}>
