@@ -5,7 +5,7 @@ import TextArea from '../../others/input/textArea'
 import { CPP } from '../../../actions/post'
 import Status from './post-status'
 import Perspective from 'perspective-api-client'
-// import { FileUploader } from "react-drag-drop-files";
+import Dropzone from 'react-dropzone'
 
 
 const perspective = new Perspective({
@@ -216,15 +216,23 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           method="post"
           encType="multipart/formdata"
         >
-           <FileInput
+           {/* <FileInput
             value={fileInput}
             fileChange={fileChange}
             label="Choose an image"
             labelClass="pri_btn"
-          /> 
-          {/* <FileUploader handleChange={fileChange} name="file" types={fileTypes} label="Choose an image" labelClass="pri_btn"/> */}
-
-          <a onClick={newImage}>I don't have an image</a>
+          />  */}
+          <Dropzone onDrop={fileChange}>
+            {({getRootProps, getInputProps}) => (
+              <section>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+          {/* <a onClick={newImage}>I don't have an image</a> */}
         </form>
       )}
     </div>
