@@ -529,8 +529,14 @@ li {
   pointer-events: none !important;
 }
 
+.main_container {
+  width: 1100px;
+  margin: auto;
+}
+
 .m_n_wrapper {
-  position: fixed;
+  position: relative;
+  float: left;
   top: 60px;
   background: #fbfbfb;
   left: 34px;
@@ -5644,9 +5650,10 @@ s .pro_avatars .pro_ava_bottom .pro_ava_bottom_act a:first-of-type {
 .badshah {
   position: relative;
   top: 62px;
-  left: 274px;
+  left: 60px;
   width: 800px;
   display: block;
+  float: left;
 }
 
 .senapati {
