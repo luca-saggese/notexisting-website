@@ -2864,7 +2864,7 @@ s .pro_avatars .pro_ava_bottom .pro_ava_bottom_act a:first-of-type {
 .posts .p_o .p_actual .p_img {
   max-width: 468px;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .posts .p_o .p_actual .p_tag_icon {
