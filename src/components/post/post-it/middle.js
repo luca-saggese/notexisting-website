@@ -232,7 +232,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           <Dropzone onDrop={_fileChange}>
             {({getRootProps, getInputProps}) => (
               <section>
-                <div {...getRootProps()} style={{height: '100%'}}>
+                <div {...getRootProps()} style={{height: '100%', textAlign: 'center', paddingTop: 150}}>
                   <input {...getInputProps()} />
                   <div style={{height: 300}}>Drag 'n' drop some files here, or click to select files</div>
                 </div>
