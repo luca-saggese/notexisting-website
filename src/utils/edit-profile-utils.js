@@ -52,6 +52,7 @@ export const editProfile = async options => {
     action = new Action('.edit_done')
 
   action.start('Processing..')
+  console.log('edit profile', values);
 
   if (!username) {
     Notify({ value: 'Username must not be empty!!' })
