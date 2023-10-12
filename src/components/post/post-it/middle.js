@@ -43,7 +43,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
         let response = JSON.parse(xhr.responseText)
         let url = response.secure_url
         fetch(
-          `https://api.sightengine.com/1.0/check.json?models=nudity,wad,offensive&api_user=444495086&api_secret=KPBB8CcEzbmXrUzyftiL&url=${url}`
+          `https://api.sightengine.com/1.0/check.json?models=wad,offensive&api_user=444495086&api_secret=KPBB8CcEzbmXrUzyftiL&url=${url}`
         )
           .then(function(response) {
             return response.json()
