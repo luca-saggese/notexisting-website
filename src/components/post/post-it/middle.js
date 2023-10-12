@@ -80,7 +80,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
   }
 
   let fileChange = e => {
-    e.preventDefault()
+    //e.preventDefault()
     dp('imageSafe', true)
     dp('fileChanged', true)
     dp('fileInput', e.target.value)
@@ -225,7 +225,7 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
           <Dropzone onDrop={fileChange}>
             {({getRootProps, getInputProps}) => (
               <section>
-                <div {...getRootProps()}>
+                <div {...getRootProps()} style={{height: '100%'}}>
                   <input {...getInputProps()} />
                   <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>
