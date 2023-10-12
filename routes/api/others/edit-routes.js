@@ -36,10 +36,12 @@ app.post('/edit-profile', async (req, res) => {
   console.log('edit-profile', req.body);
 
   // filter illegal characters
-  let replacer = /[^a-z0-9_.@$#]/g
+  let replacer = /[^a-zA-Z0-9_.@$#]/g
   username = username.replace(replacer, '')
   firstname = firstname.replace(replacer, '')
   surname = surname.replace(replacer, '')
+
+  //console.log('edit-profile', username, firstname, );
 
   db.c_validator('username', req)
   db.c_validator('firstname', req)
