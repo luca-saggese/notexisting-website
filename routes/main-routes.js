@@ -22,11 +22,11 @@ app.get('/help', (req, res) => {
   res.render('help', { options })
 })
 
-// DEVELOPER ROUTE
-app.get('/developer', (req, res) => {
-  let options = { title: 'Developer' }
-  res.render('developer', { options })
-})
+// // DEVELOPER ROUTE
+// app.get('/developer', (req, res) => {
+//   let options = { title: 'Developer' }
+//   res.render('developer', { options })
+// })
 
 // ABOUT ROUTE
 app.get('/about', (req, res) => {
