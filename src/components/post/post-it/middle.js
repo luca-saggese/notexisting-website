@@ -61,8 +61,8 @@ const PostItMiddle = ({ postIt, session, dispatch }) => {
                 dp('imageSafe', 'drugs')
               } else if (image_safety.nudity.safe < 0.4) {
                 dp('imageSafe', 'nudity')
-              } else if (image_safety.nudity.partial > 0.5) {
-                dp('imageSafe', 'partial nudity')
+              // } else if (image_safety.nudity.partial > 0.5) {
+              //   dp('imageSafe', 'partial nudity')
               } else {
                 dp('imageSafe', false)
               }
